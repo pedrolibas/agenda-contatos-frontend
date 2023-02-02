@@ -1,12 +1,11 @@
-import { useState } from 'react'
+import { Global } from "./styles/global";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <div className="App">
+      <Global />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
