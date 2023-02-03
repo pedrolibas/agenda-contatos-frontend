@@ -2,7 +2,13 @@ import { createGlobalStyle } from "styled-components";
 
 export const Global = createGlobalStyle`
 :root{
-    --color-gray-4: #212529
+    --color-gray-4: #212529;
+	--color-gray-3: #868E96;
+    --color-gray-1: #f5f7fa;
+    --color-white: #ffffff;
+    --color-black: #000000;
+	--color-purple: #623CEA;
+	--color-red: #cf0e0e;
 }
 
 html,
@@ -110,7 +116,7 @@ section {
 
 body {
 	line-height: 1;
-	background-color: var(--color-black);
+    background-color: var(--color-gray-4);
 }
 
 ol,
@@ -140,7 +146,6 @@ body,
 input,
 button,
 textarea {
-	font-family: 'Poppins', sans-serif;
-    background-color: var(--color-gray-4);
+	font-family: 'Roboto', sans-serif;;
 }
 `;
