@@ -25,9 +25,18 @@ export interface DataRequestContact {
   telephone: string;
 }
 
-interface DataContact extends DataRequestContact {
+export interface DataContact extends DataRequestContact {
   id: string;
-  createdAt: Date;
+  createdAt: string;
+}
+
+interface DataUser {
+  id: string;
+  name: string;
+  email: string;
+  telephone: string;
+  createdAt: string;
+  password: string;
 }
 
 interface DataProvider {
@@ -36,12 +45,15 @@ interface DataProvider {
   createContact: (data: DataRequestContact) => void;
   contacts: DataContact[];
   setContacts: React.Dispatch<React.SetStateAction<DataContact[]>>;
+  user: DataUser;
+  setUser: React.Dispatch<React.SetStateAction<DataUser>>;
 }
 
 export const UserContext = createContext<DataProvider>({} as DataProvider);
 
 const UserProvider = ({ children }: IProps) => {
   const [contacts, setContacts] = useState<DataContact[]>([]);
+  const [user, setUser] = useState<DataUser>({} as DataUser);
 
   const naviagate = useNavigate();
 
@@ -81,7 +93,17 @@ const UserProvider = ({ children }: IProps) => {
   };
 
   return (
-    <UserContext.Provider value={{ userLogin, userRegister, createContact, contacts, setContacts }}>
+    <UserContext.Provider
+      value={{
+        userLogin,
+        userRegister,
+        createContact,
+        contacts,
+        setContacts,
+        user,
+        setUser,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

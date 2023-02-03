@@ -7,16 +7,21 @@ import api from "../../services/api";
 import { DashboardStyled } from "./styles";
 
 const Dashboard = () => {
-  const { setContacts } = useContext(UserContext);
+  const { setContacts, setUser } = useContext(UserContext);
 
   useEffect(() => {
     const getToken = localStorage.getItem("@agenda");
     const token = getToken ? JSON.parse(getToken) : null;
+    
     api
       .get("/users", { headers: { Authorization: `Bearer ${token}` } })
-      .then((res) => setContacts(res.data.contacts))
+      .then((res) => {
+        setContacts(res.data.contacts);
+        delete res.data.contacts
+        setUser(res.data)
+      })
       .catch((err) => console.log(err));
-  });
+  }, []);
 
   return (
     <DashboardStyled>
