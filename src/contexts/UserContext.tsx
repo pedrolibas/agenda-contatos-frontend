@@ -47,6 +47,7 @@ interface DataProvider {
   setContacts: React.Dispatch<React.SetStateAction<DataContact[]>>;
   user: DataUser;
   setUser: React.Dispatch<React.SetStateAction<DataUser>>;
+  disconnectUser: () => void;
 }
 
 export const UserContext = createContext<DataProvider>({} as DataProvider);
@@ -55,14 +56,14 @@ const UserProvider = ({ children }: IProps) => {
   const [contacts, setContacts] = useState<DataContact[]>([]);
   const [user, setUser] = useState<DataUser>({} as DataUser);
 
-  const naviagate = useNavigate();
+  const navigate = useNavigate();
 
   const userLogin = (data: DataLogin) => {
     api
       .post("/login", data)
       .then((res) => {
         localStorage.setItem("@agenda", JSON.stringify(res.data.token));
-        naviagate("/dashboard");
+        navigate("/dashboard");
       })
       .catch((err) => console.log(err));
   };
@@ -92,6 +93,11 @@ const UserProvider = ({ children }: IProps) => {
       .catch((err) => console.log(err));
   };
 
+  const disconnectUser = () => {
+    localStorage.removeItem("@agenda");
+    navigate("/");
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -102,6 +108,7 @@ const UserProvider = ({ children }: IProps) => {
         setContacts,
         user,
         setUser,
+        disconnectUser,
       }}
     >
       {children}
