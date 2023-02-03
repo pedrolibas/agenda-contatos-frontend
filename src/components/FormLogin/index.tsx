@@ -1,3 +1,4 @@
+import { useForm } from "react-hook-form";
 import {
   ButtonFormStyled,
   FormStyled,
@@ -5,17 +6,31 @@ import {
   LabelStyled,
   SpanFormStyled,
 } from "../FormComponents/styles";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { schemaLogin } from "../../validators/validators";
+import { DataLogin, UserContext } from "../../contexts/UserContext";
+import { useContext } from "react";
 
 const FormLogin = () => {
+  const { userLogin } = useContext(UserContext);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<DataLogin>({
+    resolver: yupResolver(schemaLogin),
+  });
+
   return (
-    <FormStyled>
+    <FormStyled onSubmit={handleSubmit(userLogin)}>
       <LabelStyled htmlFor="email">Email</LabelStyled>
-      <InputStyled type="text" id="email" />
-      <SpanFormStyled>error</SpanFormStyled>
+      <InputStyled type="text" id="email" {...register("email")} />
+      <SpanFormStyled>{errors.email?.message}</SpanFormStyled>
       <LabelStyled htmlFor="Password">Senha</LabelStyled>
-      <InputStyled type="text" id="Password" />
-      <SpanFormStyled>error</SpanFormStyled>
-      <ButtonFormStyled>Entrar</ButtonFormStyled>
+      <InputStyled type="text" id="Password" {...register("password")} />
+      <SpanFormStyled>{errors.password?.message}r</SpanFormStyled>
+      <ButtonFormStyled type="submit">Entrar</ButtonFormStyled>
     </FormStyled>
   );
 };
