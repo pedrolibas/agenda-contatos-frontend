@@ -1,4 +1,6 @@
-import { createContext, ReactNode } from "react";
+import React, { createContext, ReactNode, useState } from "react";
+import api from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
   children: ReactNode;
@@ -14,7 +16,7 @@ export interface DataRegister {
   email: string;
   telephone: string;
   password: string;
-  confirmPassword: string;
+  confirmPassword?: string;
 }
 
 export interface DataRequestContact {
@@ -23,29 +25,63 @@ export interface DataRequestContact {
   telephone: string;
 }
 
+interface DataContact extends DataRequestContact {
+  id: string;
+  createdAt: Date;
+}
+
 interface DataProvider {
   userLogin: (data: DataLogin) => void;
   userRegister: (data: DataRegister) => void;
   createContact: (data: DataRequestContact) => void;
+  contacts: DataContact[];
+  setContacts: React.Dispatch<React.SetStateAction<DataContact[]>>;
 }
 
 export const UserContext = createContext<DataProvider>({} as DataProvider);
 
 const UserProvider = ({ children }: IProps) => {
+  const [contacts, setContacts] = useState<DataContact[]>([]);
+
+  const naviagate = useNavigate();
+
   const userLogin = (data: DataLogin) => {
-    console.log(data);
+    api
+      .post("/login", data)
+      .then((res) => {
+        localStorage.setItem("@agenda", JSON.stringify(res.data.token));
+        naviagate("/dashboard");
+      })
+      .catch((err) => console.log(err));
   };
 
   const userRegister = (data: DataRegister) => {
-    console.log(data);
+    delete data.confirmPassword;
+
+    api
+      .post("/users", data)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
   };
 
   const createContact = (data: DataRequestContact) => {
-    console.log(data);
+    const getToken = localStorage.getItem("@agenda");
+    const token = getToken ? JSON.parse(getToken) : null;
+
+    api
+      .post("/contact", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
   };
 
   return (
-    <UserContext.Provider value={{ userLogin, userRegister, createContact }}>
+    <UserContext.Provider value={{ userLogin, userRegister, createContact, contacts, setContacts }}>
       {children}
     </UserContext.Provider>
   );
