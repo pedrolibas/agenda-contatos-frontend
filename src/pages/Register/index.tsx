@@ -3,6 +3,7 @@ import {
   ContainerPage,
   SpanStyled,
 } from "../../components/PagesComponents/styles";
+import {Link} from "react-router-dom"
 
 const Register = () => {
   return (
@@ -14,7 +15,7 @@ const Register = () => {
         <div className="container-form">
           <FormRegister />
           <SpanStyled>
-            Já possui cadastro? <a>Conecte-se</a>
+            Já possui cadastro? <Link to={"/"}>Conecte-se</Link>
           </SpanStyled>
         </div>
       </section>

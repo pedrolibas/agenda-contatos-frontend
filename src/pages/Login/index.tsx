@@ -3,6 +3,7 @@ import {
   ContainerPage,
   SpanStyled,
 } from "../../components/PagesComponents/styles";
+import {Link} from "react-router-dom"
 
 const Login = () => {
   return (
@@ -15,7 +16,7 @@ const Login = () => {
           <h1>Agenda</h1>
           <FormLogin />
           <SpanStyled>
-            Ainda não possui cadastro? <a>Cadastrar-se</a>
+            Ainda não possui cadastro? <Link to={"/register"}>Cadastrar-se</Link>
           </SpanStyled>
         </div>
       </section>
