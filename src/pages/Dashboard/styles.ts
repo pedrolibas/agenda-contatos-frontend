@@ -22,6 +22,25 @@ export const DashboardStyled = styled.div`
       border: 2px solid var(--color-purple);
     }
   }
+
+  @media (max-width: 690px) {
+    section{
+      flex-direction: column-reverse;
+      
+    div{
+      width: 70%;
+      height: 40%;
+    }
+    }
+  }
+
+  @media (max-width: 470px){
+    section{
+    div{
+      width: 90%;
+    }
+    }
+  }
 `;
 
 export const Loading = styled.div`

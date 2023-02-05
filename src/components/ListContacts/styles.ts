@@ -14,4 +14,13 @@ export const ListStyled = styled.ul`
   border-radius: 5px;
 
   overflow-y: scroll;
+
+  @media (max-width: 690px){
+    max-height: 55%;
+    width: 70%;
+  }
+
+  @media (max-width: 470px){
+    width: 90%;
+  }
 `;

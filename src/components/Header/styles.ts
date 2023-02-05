@@ -42,4 +42,10 @@ export const HeaderStyled = styled.header`
       color: var(--color-purple);
     }
   }
+
+  @media (max-width: 470px){
+    button{
+      width: 20%;
+    }
+  }
 `;

@@ -51,7 +51,33 @@ export const ContainerPage = styled.div`
       font-size: 2.1875rem;
     }
   }
+
+  
+  @media (max-width: 790px) {
+    section{
+      width: 95%;
+    }
+  }
+
+  
+  @media (max-width: 523px) {
+    section{
+      flex-direction: column;
+      height: 90%;
+    }
+
+    .container-side{
+      width: 100%;
+      height: 30%;
+    }
+
+    .container-form{
+      width: 100%;
+      height: 70%;
+    }
+  }
 `;
+
 export const SpanStyled = styled.span`
   font-size: 13px;
   margin-top: 5px;
