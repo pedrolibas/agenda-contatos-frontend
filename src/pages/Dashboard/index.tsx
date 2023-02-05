@@ -3,7 +3,7 @@ import FormContact from "../../components/FormContact";
 import Header from "../../components/Header";
 import ListContacts from "../../components/ListContacts";
 import { UserContext } from "../../contexts/UserContext";
-import { DashboardStyled } from "./styles";
+import { DashboardStyled, Loading } from "./styles";
 
 const Dashboard = () => {
   const { isLoading, getUser } = useContext(UserContext);
@@ -13,7 +13,7 @@ const Dashboard = () => {
   }, []);
 
   return isLoading ? (
-    <div>teste</div>
+    <Loading><h2>Carregando...</h2></Loading>
   ) : (
     <DashboardStyled>
       <Header />

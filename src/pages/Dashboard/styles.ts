@@ -23,3 +23,18 @@ export const DashboardStyled = styled.div`
     }
   }
 `;
+
+export const Loading = styled.div`
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h2 {
+    color: var(--color-purple);
+    font-weight: 900;
+    font-size: 6.25rem;
+  }
+`;
