@@ -1,4 +1,5 @@
 
+import { Toaster } from "react-hot-toast";
 import RouterMain from "./routes";
 import { Global } from "./styles/global";
 
@@ -7,6 +8,7 @@ function App() {
     <div className="App">
       <Global />
       <RouterMain/>
+      <Toaster/>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, { createContext, ReactNode, useState } from "react";
 import api from "../services/api";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 interface IProps {
   children: ReactNode;
@@ -66,19 +67,32 @@ const UserProvider = ({ children }: IProps) => {
         localStorage.setItem("@agenda", JSON.stringify(res.data.token));
         getUser();
         navigate("/dashboard");
+        toast.success("Login feito com sucesso");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.status) {
+          toast.error("Email ou senha inválido!");
+        } else {
+          toast.error("Algo deu errado, tente novamente mais tarde!");
+        }
+      });
   };
 
   const userRegister = (data: DataRegister) => {
     delete data.confirmPassword;
-
     api
       .post("/users", data)
       .then((res) => {
-        console.log(res.data);
+        toast.success("Cadastro realizado com sucesso!");
+        navigate("/");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.status) {
+          toast.error("Este email já esta em uso!");
+        } else {
+          toast.error("Algo deu errado, tente novamente mais tarde!");
+        }
+      });
   };
 
   const getUser = () => {
@@ -112,8 +126,11 @@ const UserProvider = ({ children }: IProps) => {
       .then((res) => {
         delete res.data.user;
         setContacts([...contacts, res.data]);
+        toast.success("Contato criado com sucesso!");
       })
-      .catch((err) => console.log(err));
+      .catch((err) =>
+        toast.error("Algo deu errado, tente novamente mais tarde!")
+      );
   };
 
   const disconnectUser = () => {
