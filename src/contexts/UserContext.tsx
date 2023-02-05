@@ -44,10 +44,10 @@ interface DataProvider {
   userRegister: (data: DataRegister) => void;
   createContact: (data: DataRequestContact) => void;
   contacts: DataContact[];
-  setContacts: React.Dispatch<React.SetStateAction<DataContact[]>>;
   user: DataUser;
-  setUser: React.Dispatch<React.SetStateAction<DataUser>>;
   disconnectUser: () => void;
+  isLoading: boolean;
+  getUser: () => void;
 }
 
 export const UserContext = createContext<DataProvider>({} as DataProvider);
@@ -55,6 +55,7 @@ export const UserContext = createContext<DataProvider>({} as DataProvider);
 const UserProvider = ({ children }: IProps) => {
   const [contacts, setContacts] = useState<DataContact[]>([]);
   const [user, setUser] = useState<DataUser>({} as DataUser);
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -63,6 +64,7 @@ const UserProvider = ({ children }: IProps) => {
       .post("/login", data)
       .then((res) => {
         localStorage.setItem("@agenda", JSON.stringify(res.data.token));
+        getUser();
         navigate("/dashboard");
       })
       .catch((err) => console.log(err));
@@ -79,6 +81,24 @@ const UserProvider = ({ children }: IProps) => {
       .catch((err) => console.log(err));
   };
 
+  const getUser = () => {
+    setIsLoading(true);
+    const getToken = localStorage.getItem("@agenda");
+    const token = getToken ? JSON.parse(getToken) : null;
+    api
+      .get("/users", { headers: { Authorization: `Bearer ${token}` } })
+      .then((res) => {
+        setContacts(res.data[0].contacts);
+        delete res.data[0].contacts;
+        setUser(res.data[0]);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        navigate("/");
+      });
+  };
+
   const createContact = (data: DataRequestContact) => {
     const getToken = localStorage.getItem("@agenda");
     const token = getToken ? JSON.parse(getToken) : null;
@@ -89,7 +109,10 @@ const UserProvider = ({ children }: IProps) => {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then((res) => console.log(res.data))
+      .then((res) => {
+        delete res.data.user;
+        setContacts([...contacts, res.data]);
+      })
       .catch((err) => console.log(err));
   };
 
@@ -105,10 +128,10 @@ const UserProvider = ({ children }: IProps) => {
         userRegister,
         createContact,
         contacts,
-        setContacts,
         user,
-        setUser,
         disconnectUser,
+        isLoading,
+        getUser,
       }}
     >
       {children}

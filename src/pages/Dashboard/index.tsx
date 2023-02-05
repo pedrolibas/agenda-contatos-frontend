@@ -3,27 +3,18 @@ import FormContact from "../../components/FormContact";
 import Header from "../../components/Header";
 import ListContacts from "../../components/ListContacts";
 import { UserContext } from "../../contexts/UserContext";
-import api from "../../services/api";
 import { DashboardStyled } from "./styles";
 
 const Dashboard = () => {
-  const { setContacts, setUser } = useContext(UserContext);
+  const { isLoading, getUser } = useContext(UserContext);
 
   useEffect(() => {
-    const getToken = localStorage.getItem("@agenda");
-    const token = getToken ? JSON.parse(getToken) : null;
-    
-    api
-      .get("/users", { headers: { Authorization: `Bearer ${token}` } })
-      .then((res) => {
-        setContacts(res.data.contacts);
-        delete res.data.contacts
-        setUser(res.data)
-      })
-      .catch((err) => console.log(err));
+    getUser();
   }, []);
 
-  return (
+  return isLoading ? (
+    <div>teste</div>
+  ) : (
     <DashboardStyled>
       <Header />
       <section>

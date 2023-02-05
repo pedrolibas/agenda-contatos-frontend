@@ -8,7 +8,7 @@ const ListContacts = () => {
   return (
     <ListStyled>
       {
-        contacts.map(contact => <CardContact name={contact.name} email={contact.email} telephone={contact.telephone} createdAt={contact.createdAt} id={contact.id}/>)
+        contacts.map(contact => <CardContact key={contact.id} name={contact.name} email={contact.email} telephone={contact.telephone} createdAt={contact.createdAt} id={contact.id}/>)
       }
     </ListStyled>
   );
