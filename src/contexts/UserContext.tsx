@@ -102,9 +102,9 @@ const UserProvider = ({ children }: IProps) => {
     api
       .get("/users", { headers: { Authorization: `Bearer ${token}` } })
       .then((res) => {
-        setContacts(res.data[0].contacts);
-        delete res.data[0].contacts;
-        setUser(res.data[0]);
+        setContacts(res.data.contacts);
+        delete res.data.contacts;
+        setUser(res.data);
         setIsLoading(false);
       })
       .catch((err) => {
