@@ -12,6 +12,10 @@
 
 - `https://github.com/pedrolibas/agenda-contatos-backend`
 
+### 4. Para iniciar a aplicação use o seguinte comando:
+
+- `yarn dev`
+
 ## Website Agenda de contatos
 
 Essa aplicação foi desenvolvida com o propósito de oferecer aos usuários uma forma de gerenciar seus contatos de forma fácil e prática.
